@@ -7,15 +7,15 @@ if (!place || place.length === 0) {
     return console.log('Please provide a place name');
 }
 
-geocode(place, (error, data) => {
+geocode(place, (error, { latitude, longitude, location }) => {
     if (error) {
         return console.log('Error', error)
     }
-    forecast(data.latitude, data.longitude, (error, forecastData) => {
+    forecast(latitude, longitude, (error, forecastData) => {
         if (error) {
             return console.log('Error', error)
         }
-        console.log(data.location)
+        console.log(location)
         console.log(forecastData)
     })
 })
