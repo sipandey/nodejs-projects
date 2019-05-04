@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const validator = require('validator')
 
 mongoose.connect('mongodb://127.0.0.1:27017/task-manager-api', {
     useNewUrlParser: true,
@@ -7,23 +8,42 @@ mongoose.connect('mongodb://127.0.0.1:27017/task-manager-api', {
 
 const User = mongoose.model('User', {
     name: {
-        type: String
+        type: String,
+        required: true,
+        trim: true
     },
     age: {
-        type: Number
+        type: Number,
+        default: 0,
+        validate(value) {
+            if(value < 0) {
+                throw new Error('Age must be postive')
+            }
+        }
+    }, 
+    email: {
+        type: String,
+        required: true,
+        trim: true,
+        lowercase: true,
+        validate(value) {
+            if(!validator.isEmail(value)) {
+                throw new Error('Email is invalid')
+            }
+        }
     }
 })
 
-// const me = new User({
-//     name: 'Siddharth',
-//     age: 28
-// })
+const me = new User({
+    name: 'Siddharth    ',
+    email: 'SIPANDEY6@GMAIL.COM'
+})
 
-// me.save().then((result) => {
-//     console.log(result)
-// }).catch((err) => {
-//     console.log(err)
-// });
+me.save().then((result) => {
+    console.log(result)
+}).catch((err) => {
+    console.log(err)
+});
 
 const Task = mongoose.model('Task', {
     description: {
@@ -34,13 +54,13 @@ const Task = mongoose.model('Task', {
     }
 })
 
-const newTask = new Task({
-    description: 'Learn Node.js',
-    completed: false
-})
+// const newTask = new Task({
+//     description: 'Learn Node.js',
+//     completed: false
+// })
 
-newTask.save().then((result) => {
-    console.log(result)
-}).catch((err) => {
-    console.log(err)
-});
+// newTask.save().then((result) => {
+//     console.log(result)
+// }).catch((err) => {
+//     console.log(err)
+// });
