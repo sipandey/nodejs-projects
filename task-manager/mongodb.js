@@ -9,10 +9,10 @@ const { MongoClient, ObjectID } = require('mongodb')
 const connectionURL = 'mongodb://127.0.0.1:27017'
 const databaseName = 'task-manager'
 
-const id = new ObjectID()
-console.log(id.id.length)
-console.log(id.toHexString().length)
-console.log(id.getTimestamp())
+// const id = new ObjectID()
+// console.log(id.id.length)
+// console.log(id.toHexString().length)
+// console.log(id.getTimestamp())
 
 MongoClient.connect(connectionURL, { useNewUrlParser: true }, (error, client) => {
     if (error) {
@@ -21,40 +21,45 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true }, (error, client) =>
 
     const db = client.db(databaseName)
 
-    // db.collection('users').insertOne({
-    //     name: 'Jane',
-    //     age: 25
-    // }, (error, result) => {
-    //     if (error) {
-    //         return console.log('Unable to insert user')
+    // db.collection('users').findOne( { name: 'Siddharth' }, (error, user) => {
+    //     if(error) {
+    //         return console.log('Unable to fetch')
     //     }
-    //     console.log(result.ops)
+    //     console.log(user)
     // })
 
-    // db.collection('users').insertMany([{
-    //     name: 'Sid',
-    //     age: 28
+    // db.collection('users').find({ age: 28}).toArray((error, users) => {
+    //     console.log(users)
+    // })
+
+    // db.collection('users').find({ age: 28}).count((error, count) => {
+    //     console.log(count)
+    // })
+
+    // db.collection('users').updateOne({
+    //     _id: new ObjectID("5cbc9ac87e06eb0158bb6356")
     // }, {
-    //     name: 'Mukul',
-    //     age: 28
-    // }], (error, result) => {
-    //     if(error) {
-    //         return console.log('Unable to insert users')
+    //     // $set: {
+    //     //     name: 'Roger'
+    //     // }
+    //     $inc: {
+    //         age: 3
     //     }
-    //     console.log(result.ops)
+    // }).then((result) => {
+    //     console.log(result)
+    // }).catch((error) => {
+    //     console.log(error)
     // })
 
-    // db.collection('tasks').insertMany([{
-    //     description: 'Task1',
-    //     completed: true
-    // },{
-    //     description: 'Task2',
-    //     completed: false
-    // }], (error, result) => {
-    //     if(error) {
-    //         console.log('Unable to insert')
-    //     }
-    //     console.log(result.ops)
-    // })
-
+    db.collection('tasks').updateMany({
+        completed: false
+    },{
+        $set: {
+            completed: true
+        }
+    }).then((result) => {
+        console.log(result)
+    }).catch((error) => {
+        console.log(error)
+    })
 })
