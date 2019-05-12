@@ -4,3 +4,4 @@ web-server/node_modules/
 web-server/.gitignore
 
 */node_modules
+*/config
