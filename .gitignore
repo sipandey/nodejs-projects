@@ -5,3 +5,4 @@ web-server/.gitignore
 
 */node_modules
 */config
+task-manager/playground/
